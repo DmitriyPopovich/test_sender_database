@@ -1,0 +1,26 @@
+AddDefaultCharset UTF-8
+
+RewriteEngine on
+
+
+php_value register_globals 0
+
+
+RewriteCond %{HTTP_HOST} ^www.localhost:8080$ [NC]
+RewriteRule ^(.*)$ http://localhost:8080/$1 [R=301,L]
+
+
+RewriteBase /
+RewriteCond %{HTTP_HOST} (.*)
+RewriteCond %{REQUEST_URI} /$ [NC]
+RewriteCond %{REQUEST_URI} !^/admin/$ 
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)(/)$ $1 [R=301,L]
+
+Options -Indexes
+Options -Includes
+
+Options +FollowSymlinks
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*) ./?%{QUERY_STRING}
